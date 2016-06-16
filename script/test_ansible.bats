@@ -14,6 +14,10 @@ load options
   [[ ${output} =~ total ]]
 }
 
+@test "ansible-controller: captainhook fixtures directory is mounted" {
+ run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "ls -l /etc/captainhook"
+  [[ ${output} =~ total ]]
+}
 @test "ansible-controller: Go v1.6.x is installed" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "go version"
   [[ ${output} =~ go1.6\. ]]
