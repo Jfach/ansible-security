@@ -5,6 +5,7 @@ ENV GOPATH=$HOME/go
 RUN apk upgrade --no-cache --available && \
     apk add --no-cache \
       python \
+      curl \
       py-pip \
       bash \
       git \
