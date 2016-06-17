@@ -9,23 +9,18 @@ load options
   [[ ${output} =~ ansible\ 2\. ]]
 }
 
-@test "ansible-controller: playbook fixtures directory is mounted" {
+@test "ansible-controller: deps - playbook fixtures directory is mounted" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "ls -l /etc/ansible"
   [[ ${output} =~ total ]]
 }
 
-@test "ansible-controller: captainhook fixtures directory is mounted" {
+@test "ansible-controller: deps - captainhook fixtures directory is mounted" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "ls -l /etc/captainhook"
   [[ ${output} =~ total ]]
 }
-@test "ansible-controller: Go v1.6.x is installed" {
+@test "ansible-controller: deps - Go v1.6.x is installed" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "go version"
   [[ ${output} =~ go1.6\. ]]
-}
-
-@test "autostager: latest version is installed" {
- run docker run --volumes-from playbooks-data -t -i --entrypoint bash autostager -c "pip list | grep autostager"
-  [[ ${output} =~ autostager ]]
 }
 
 @test "ansible-controller: captainhook is in path" {
@@ -34,6 +29,16 @@ load options
 }
 
 @test "ansible-controller: captainhook is executable" {
+ run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook" 
+ [[ ${output} =~ Listening ]]}
+
+@test "ansible-controller: captainhook is executable" {
  run docker run  -t -i --entrypoint captainhook ansible-security --help
- [[ ${output} =~ Usage ]]
+ [[ ${output} =~ Usage ]]}
+
+
+@test "autostager: latest version is installed" {
+ run docker run --volumes-from playbooks-data -t -i --entrypoint bash autostager -c "pip list | grep autostager"
+  [[ ${output} =~ autostager ]]
 }
+
