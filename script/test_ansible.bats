@@ -29,13 +29,12 @@ load options
 }
 
 @test "ansible-controller: captainhook is executable" {
- run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook" 
- [[ ${output} =~ Listening ]]}
-
-@test "ansible-controller: captainhook is executable" {
  run docker run  -t -i --entrypoint captainhook ansible-security --help
  [[ ${output} =~ Usage ]]}
 
+@test "ansible-controller: captainhook config good, listening on 8080" {
+ run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook"
+ [[ ${output} =~ Listening ]]}
 
 @test "autostager: latest version is installed" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash autostager -c "pip list | grep autostager"
