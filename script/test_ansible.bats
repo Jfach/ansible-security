@@ -2,7 +2,7 @@
 
 load options
 
-# note: BATS does not respect this syntax: ${DATA_IMAGEi}
+# note: BATS does not respect this syntax: ${DATA_IMAGE}
 
 @test "ansible-controller: Ansible 2.x is installed" {
   run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "cd /opt/ansible; ansible --version"
@@ -18,6 +18,7 @@ load options
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "ls -l /etc/captainhook"
   [[ ${output} =~ total ]]
 }
+
 @test "ansible-controller: deps - Go v1.6.x is installed" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash ansible-security -c "go version"
   [[ ${output} =~ go1.6\. ]]
@@ -30,11 +31,13 @@ load options
 
 @test "ansible-controller: captainhook is executable" {
  run docker run  -t -i --entrypoint captainhook ansible-security --help
- [[ ${output} =~ Usage ]]}
+ [[ ${output} =~ Usage ]]
+}
 
 @test "ansible-controller: captainhook config good, listening on 8080" {
  run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook"
- [[ ${output} =~ Listening ]]}
+ [[ ${output} =~ Listening ]]
+}
 
 @test "autostager: latest version is installed" {
  run docker run --volumes-from playbooks-data -t -i --entrypoint bash autostager -c "pip list | grep autostager"
