@@ -35,7 +35,7 @@ load options
 }
 
 @test "ansible-controller: captainhook config good, listening on 8080" {
- run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook"
+ run docker run  -t -i --entrypoint bash ansible-security -c " /usr/bin/captainhook -echo -configdir /etc/captainhook && done"
  [[ ${output} =~ Listening ]]
 }
 
